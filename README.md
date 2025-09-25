@@ -1,6 +1,10 @@
 PDF QR codes generator
 =====
 
+## !!! FOR FAT32 use `sh generate.sh` !!!
+## !!! if finished run `sh delete.sh` !!!
+
+
 A utility for generating PDFs filled with QR codes. Highly customizable.
 
 QR code content includes version number and CRC8/CCITT checksum. For example `V1.00051.31`, `00051` is a QR code content and `31` is CRC8 checksum of the QR code content in hex format.

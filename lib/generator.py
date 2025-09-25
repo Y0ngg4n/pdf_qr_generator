@@ -1,11 +1,18 @@
-import math
 from io import BytesIO
 
 import qrcode
 from reportlab.pdfbase.pdfmetrics import getAscent
 from reportlab.pdfgen.canvas import Canvas
 
-from lib.qrcrc import calc_crc
+import os
+import binascii
+
+def generate_meshcore_psk():
+    """Generate a 16-byte (128-bit) PSK for MeshCore - matches your example format"""
+    psk_bytes = os.urandom(16)
+    psk_hex = binascii.hexlify(psk_bytes).decode("ascii")
+    url = f"meshcore://channel/add?name=AuxPrivTest&secret={psk_hex}"
+    return url
 
 
 def gen_qr(data):
@@ -58,11 +65,12 @@ def generate(page_width_mm: float, page_height_mm: float,
     pos_x = tile_margin_x
     pos_y = page_height - tile_margin_y
     while True:
-        txt = f"{prefix}{num:0{digits}}{suffix}"
-        data_txt = f"V1.{txt}.{calc_crc(txt)}"
+        # txt = f"{prefix}{num:0{digits}}{suffix}"
+        txt = generate_meshcore_psk()
+        # data_txt = f"V1.{txt}.{calc_crc(txt)}"
         num += 1
 
-        img = gen_qr(data_txt)
+        img = gen_qr(txt)
 
         canvas.drawInlineImage(img, pos_x, pos_y - tile_base_size, width=tile_base_size, height=tile_base_size)
 

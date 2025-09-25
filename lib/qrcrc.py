@@ -1,11 +1,10 @@
-from crc import CrcCalculator, Crc8
+from crc import Calculator, Crc8
 
 
 def calc_crc(code):
-    crc_calculator = CrcCalculator(Crc8.CCITT)
+    crc_calculator = Calculator(Crc8.CCITT)
 
-    txt = code
-    crc = crc_calculator.calculate_checksum(txt.encode("ascii"))
+    crc = crc_calculator.checksum(code)
 
     return f"{crc:02X}"
 
